@@ -36,6 +36,7 @@ python breakout_improving.py
 - **Left/Right Arrow Keys**: Move paddle left and right
 - **R**: Restart game (when game over or won)
 - **ESC**: Exit game
+- **C**: Cheat code (testing only) - removes all but one block
 
 ## Game Rules
 

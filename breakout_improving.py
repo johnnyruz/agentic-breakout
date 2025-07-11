@@ -270,7 +270,7 @@ class Game:
         
         # Instructions
         if not self.game_over and not self.game_won:
-            instr_text = self.small_font.render("Use LEFT/RIGHT arrows to move paddle", True, WHITE)
+            instr_text = self.small_font.render("Use LEFT/RIGHT arrows to move paddle | Press C for cheat (testing)", True, WHITE)
             self.screen.blit(instr_text, (10, SCREEN_HEIGHT - 30))
         
         pygame.display.flip()
@@ -285,6 +285,17 @@ class Game:
         self.game_won = False
         self.create_improving_blocks()
     
+    def activate_cheat(self):
+        # Find all non-destroyed blocks
+        active_blocks = [block for block in self.blocks if not block.destroyed]
+        
+        # If there are more than 1 active blocks, destroy all but one
+        if len(active_blocks) > 1:
+            # Keep the last block, destroy the rest
+            for i, block in enumerate(active_blocks):
+                if i < len(active_blocks) - 1:
+                    block.destroyed = True
+    
     def run(self):
         running = True
         while running:
@@ -296,6 +307,9 @@ class Game:
                         self.restart()
                     elif event.key == pygame.K_ESCAPE:
                         running = False
+                    elif event.key == pygame.K_c and not self.game_over and not self.game_won:
+                        # Cheat code: destroy all but one block
+                        self.activate_cheat()
             
             self.update()
             self.draw()
