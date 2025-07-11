@@ -243,8 +243,11 @@ class Game:
             block.draw(self.screen)
         
         # Draw UI
-        current_time = time.time() - self.start_time
-        time_text = self.font.render(f"Time: {current_time:.1f}s", True, WHITE)
+        if self.game_won:
+            time_text = self.font.render(f"Time: {self.completion_time:.1f}s", True, WHITE)
+        else:
+            current_time = time.time() - self.start_time
+            time_text = self.font.render(f"Time: {current_time:.1f}s", True, WHITE)
         self.screen.blit(time_text, (10, 10))
         
         if self.game_over:
