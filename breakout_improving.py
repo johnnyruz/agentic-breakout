@@ -104,6 +104,7 @@ class Game:
         self.blocks = []
         self.start_time = time.time()
         self.completion_time = 0
+        self.final_time = 0
         self.game_over = False
         self.game_won = False
         
@@ -224,6 +225,7 @@ class Game:
             
             # Check if ball fell off screen
             if self.ball.y > SCREEN_HEIGHT:
+                self.final_time = time.time() - self.start_time
                 self.game_over = True
                 
             # Check if all blocks destroyed
@@ -245,6 +247,9 @@ class Game:
         # Draw UI
         if self.game_won:
             time_text = self.font.render(f"Time: {self.completion_time:.1f}s", True, WHITE)
+        elif self.game_over:
+            # Stop timer on game over, show final time
+            time_text = self.font.render(f"Time: {self.final_time:.1f}s", True, WHITE)
         else:
             current_time = time.time() - self.start_time
             time_text = self.font.render(f"Time: {current_time:.1f}s", True, WHITE)
@@ -270,7 +275,7 @@ class Game:
         
         # Instructions
         if not self.game_over and not self.game_won:
-            instr_text = self.small_font.render("Use LEFT/RIGHT arrows to move paddle | Press C for cheat (testing)", True, WHITE)
+            instr_text = self.small_font.render("Use LEFT/RIGHT arrows to move paddle", True, WHITE)
             self.screen.blit(instr_text, (10, SCREEN_HEIGHT - 30))
         
         pygame.display.flip()
@@ -281,6 +286,7 @@ class Game:
         self.blocks = []
         self.start_time = time.time()
         self.completion_time = 0
+        self.final_time = 0
         self.game_over = False
         self.game_won = False
         self.create_improving_blocks()
