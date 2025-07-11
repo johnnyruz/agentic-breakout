@@ -8,7 +8,7 @@ A classic Breakout game implemented in Python using Pygame, where the blocks for
 - **Custom block arrangement** - Blocks are arranged to spell out "IMPROVING"
 - **Blue color scheme** - All blocks are colored in blue tones as requested
 - **Smooth physics** - Ball bounces with realistic physics, including angle changes based on paddle hit position
-- **Score system** - Earn points for each block destroyed
+- **Timer system** - Track how long it takes to complete the level
 - **Game states** - Win condition when all blocks are destroyed, restart functionality
 - **Responsive controls** - Use left/right arrow keys to move the paddle
 
@@ -47,9 +47,9 @@ python breakout_improving.py
 ## Game Mechanics
 
 - **Paddle Physics**: The ball's bounce angle depends on where it hits the paddle
-- **Block Destruction**: Each block gives 10 points when destroyed
+- **Timer System**: Track your completion time with a running clock
 - **Wall Bouncing**: Ball bounces off top and side walls
-- **Win Condition**: Destroy all blocks to win
+- **Win Condition**: Destroy all blocks to win and see your completion time
 - **Loss Condition**: Ball falls off the bottom of the screen
 
 ## Code Structure

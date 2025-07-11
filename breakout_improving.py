@@ -1,6 +1,7 @@
 import pygame
 import sys
 import math
+import time
 
 # Initialize Pygame
 pygame.init()
@@ -24,9 +25,9 @@ PADDLE_HEIGHT = 15
 PADDLE_SPEED = 8
 BALL_SIZE = 10
 BALL_SPEED = 6
-BLOCK_WIDTH = 25
-BLOCK_HEIGHT = 15
-BLOCK_PADDING = 2
+BLOCK_WIDTH = 18
+BLOCK_HEIGHT = 12
+BLOCK_PADDING = 1
 
 class Ball:
     def __init__(self, x, y):
@@ -101,7 +102,8 @@ class Game:
         self.paddle = Paddle(SCREEN_WIDTH // 2 - PADDLE_WIDTH // 2, SCREEN_HEIGHT - 50)
         self.ball = Ball(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
         self.blocks = []
-        self.score = 0
+        self.start_time = time.time()
+        self.completion_time = 0
         self.game_over = False
         self.game_won = False
         
@@ -172,8 +174,8 @@ class Game:
         
         # Word "improving"
         word = "improving"
-        start_x = 50
-        start_y = 100
+        start_x = 80
+        start_y = 80
         
         current_x = start_x
         
@@ -208,7 +210,6 @@ class Game:
         for block in self.blocks:
             if not block.destroyed and ball_rect.colliderect(block.get_rect()):
                 block.destroyed = True
-                self.score += 10
                 
                 # Simple bounce (reverse y direction)
                 self.ball.dy = -self.ball.dy
@@ -227,6 +228,7 @@ class Game:
                 
             # Check if all blocks destroyed
             if all(block.destroyed for block in self.blocks):
+                self.completion_time = time.time() - self.start_time
                 self.game_won = True
     
     def draw(self):
@@ -241,8 +243,9 @@ class Game:
             block.draw(self.screen)
         
         # Draw UI
-        score_text = self.font.render(f"Score: {self.score}", True, WHITE)
-        self.screen.blit(score_text, (10, 10))
+        current_time = time.time() - self.start_time
+        time_text = self.font.render(f"Time: {current_time:.1f}s", True, WHITE)
+        self.screen.blit(time_text, (10, 10))
         
         if self.game_over:
             game_over_text = self.font.render("GAME OVER - Press R to restart", True, RED)
@@ -254,8 +257,12 @@ class Game:
             text_rect = win_text.get_rect(center=(SCREEN_WIDTH//2, SCREEN_HEIGHT//2))
             self.screen.blit(win_text, text_rect)
             
+            time_text = self.font.render(f"Completion time: {self.completion_time:.1f} seconds", True, WHITE)
+            time_rect = time_text.get_rect(center=(SCREEN_WIDTH//2, SCREEN_HEIGHT//2 + 30))
+            self.screen.blit(time_text, time_rect)
+            
             restart_text = self.small_font.render("Press R to restart", True, WHITE)
-            restart_rect = restart_text.get_rect(center=(SCREEN_WIDTH//2, SCREEN_HEIGHT//2 + 50))
+            restart_rect = restart_text.get_rect(center=(SCREEN_WIDTH//2, SCREEN_HEIGHT//2 + 60))
             self.screen.blit(restart_text, restart_rect)
         
         # Instructions
@@ -269,7 +276,8 @@ class Game:
         self.paddle = Paddle(SCREEN_WIDTH // 2 - PADDLE_WIDTH // 2, SCREEN_HEIGHT - 50)
         self.ball = Ball(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
         self.blocks = []
-        self.score = 0
+        self.start_time = time.time()
+        self.completion_time = 0
         self.game_over = False
         self.game_won = False
         self.create_improving_blocks()
